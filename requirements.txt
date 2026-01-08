@@ -1,0 +1,11 @@
+streamlit
+fastapi
+uvicorn
+openai
+pydantic
+scikit-learn
+pandas
+numpy
+python-docx
+PyMuPDF
+reportlab
