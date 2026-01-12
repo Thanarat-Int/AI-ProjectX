@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / PyInstaller
+build/
+dist/
+*.spec
+
+# Virtual Environments
+venv/
+env/
+.env
+
+# IDEs
+.vscode/
+.idea/
+
+# OS generated files
+Thumbs.db
+Desktop.ini
+
+# Logs
+*.log
+
+# User Data (Optional - usually we want to keep default config but ignore personal changes if this was a shared repo)
+# For a portfolio, we might want to include example json files, so I won't ignore them.
+# But IF config.json contained real secrets, we would ignore it.
+# config.json 
