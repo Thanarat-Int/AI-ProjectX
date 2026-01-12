@@ -1,7 +1,7 @@
 ### AI Brain Auto Form
 
 > ระบบ AI สำหรับประมวลผลแบบฟอร์มอัตโนมัติ
-![Preview](./AI%20Brain%20Auto%20Form/assets/preview.png)
+![Preview](./assets/preview.png)
 ---
 
 # 🧠 AI Brain - Intelligent Form Automation
