@@ -1,3 +1,13 @@
+### AI Brain Auto Form
+
+> ระบบ AI สำหรับประมวลผลแบบฟอร์มอัตโนมัติ
+
+[![AI Brain Auto Form Preview](./AI%20Brain%20Auto%20Form/assets/preview.png)](./AI%20Brain%20Auto%20Form)
+
+[คลิกเพื่อดูรายละเอียดโปรเจกต์](./AI%20Brain%20Auto%20Form)
+
+---
+
 # 🧠 AI Brain - Intelligent Form Automation
 **Advanced Persona-based Form Filler with Unsupervised Learning**
 
