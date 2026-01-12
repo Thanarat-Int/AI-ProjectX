@@ -15,7 +15,7 @@
 *   **Dynamic Personas:** Define agents with specific roles, ages, and interests (e.g., "Tech Lover", "Health Conscious").
 *   **Smart Decision Making:** Uses K-Means clustering to understand form context and answer essentially.
 *   **Standalone Application:** Compiled as a portable `.exe` (No Python required).
-*   **Future-Proof:** Built-in integration layer for Gemini/GPT API.
+*   **Future-Proof:** Built-in integration (LLM) layer for Gemini/GPT API.
 
 ---
 
@@ -27,7 +27,7 @@
 *   **สร้างตัวละครได้:** กำหนดบทบาทของบอทได้หลากหลาย (เช่น สายไอที, สายสุขภาพ, ผู้สูงอายุ)
 *   **คิดเองได้:** ใช้ AI เรียนรู้บริบทของคำถาม เพื่อเลือกคำตอบที่ตรงกับนิสัยของตัวละครนั้นๆ
 *   **พร้อมใช้งาน:** รวมเป็นไฟล์ `.exe` ไฟล์เดียว เปิดใช้งานได้ทันทีไม่ต้องติดตั้งโปรแกรมเสริม
-*   **รองรับอนาคต:** เตรียมระบบเชื่อมต่อกับ Gemini/GPT for ข้อความที่สร้างสรรค์กว่าเดิม
+*   **รองรับอนาคต:** เตรียมระบบเชื่อมต่อกับ (LLM) Gemini/GPT for ข้อความที่สร้างสรรค์กว่าเดิม
 
 ---
 ### 🛠 Technologies
