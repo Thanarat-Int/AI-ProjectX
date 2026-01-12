@@ -16,7 +16,7 @@ Projects are organized into separate folders. You can navigate to each folder to
 | Project Name | Description |
 | :--- | :--- |
 | **[`/AI Brain Auto Form`](./AI%20Brain%20Auto%20Form)** | AI-driven system for automated form processing. |
-| **[Coming Soon]** | *Future AI/Automation projects will be listed here.* |
+| **[`/AI Resume Screener`]**| *Future AI/Automation projects will be listed here.* |
 
 ---
 
@@ -24,3 +24,4 @@ Projects are organized into separate folders. You can navigate to each folder to
 
 **Thanarat-Int**
 * GitHub: [github.com/Thanarat-Int](https://github.com/Thanarat-Int)
+
