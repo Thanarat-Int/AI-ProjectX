@@ -15,7 +15,9 @@
 ---
 
 > ระบบ AI สำหรับสแกนเรซูเม่ช่วย HR คัดกรองผู้สมัคร
-![Preview](./assets/preview.png)
+![Preview](./assets/ar1.png)
+![Preview](./assets/ar2.png)
+![Preview](./assets/ar3.png)
 ---
 
 ## 🛠️ Installation & Setup
