@@ -1,0 +1,16 @@
+# Git & Docker
+.git
+.gitignore
+.dockerignore
+
+# Python
+__pycache__
+*.py[cod]
+*.so
+
+# Environment
+.env
+
+# Data (Don't copy local uploads into image, rely on volume)
+data/uploads/*
+!data/uploads/.gitkeep
