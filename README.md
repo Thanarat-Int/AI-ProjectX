@@ -50,7 +50,7 @@ This repository leverages a "Future-Proof" technology stack, integrating industr
 | :--- | :---: | :--- | :--- |
 | **[`/AI Brain Auto Form`](./AI%20Brain%20Auto%20Form)** | ![Active](https://img.shields.io/badge/-Active-success) | AI Brain Auto Forms is an intelligent automation system developed in Python, designed to simulate human behavior in filling out online forms. Its key advantage lies in combining Machine Learning with Generative AI. The system fully supports leading LLM APIs, such as Google Gemini and OpenAI, enabling the bot to analyze context and generate complex, natural responses just like a real human | Python, Selenium, Scikit-learn, CustomTkinter, Gemini API, OpenAI API (LLM) |
 | **[`/AI Recruiter`](./AI%20Recruiter)**| ![Active](https://img.shields.io/badge/-Active-success) | AI Recruiter Smart resume screening system featuring semantic analysis and candidate comparison. Designed for future scalability with support for Google Gemini and OpenAI APIs. | OCR, NLP, LLM, Python, Agents, API |
-| **[`/AI AgentX`](./AI%20AgentX)**| ![Developing](https://img.shields.io/badge/-Upcoming-orange) | *Advanced autonomous agent for complex task execution.* | Agents, API |
+| **[`/AI FinSight`](./AI%20AgentX)**| ![Developing](https://img.shields.io/badge/-Upcoming-orange) | *Advanced autonomous agent for complex task execution.* | Agents, API |
 
 ---
 
