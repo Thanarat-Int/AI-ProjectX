@@ -48,7 +48,7 @@ This repository leverages a "Future-Proof" technology stack, integrating industr
 
 | Project Name | 🚀 Status | Description | Key Tech |
 | :--- | :---: | :--- | :--- |
-| **[`/AI Brain Auto Form`](./AI%20Brain%20Auto%20Form)** | ![Active](https://img.shields.io/badge/-Active-success) | AI-driven form processing system featuring an LLM-ready architecture, designed to support future integration of Generative AI capabilities. | OCR, NLP, LLM, Python, Agents, API |
+| **[`/AI Brain Auto Form`](./AI%20Brain%20Auto%20Form)** | ![Active](https://img.shields.io/badge/-Active-success) | AI-driven form processing system featuring an LLM-ready architecture, designed to support future integration of Generative AI capabilities. | Python, Selenium, Scikit-learn, CustomTkinter, Gemini API, OpenAI API (LLM) |
 | **[`/AI Recruiter`](./AI%20Recruiter)**| ![Active](https://img.shields.io/badge/-Active-success) | Intelligent resume screening and candidate analysis system powered by **Gemini LLM**. | OCR, NLP, LLM, Python, Agents, API |
 | **[`/AI AgentX`](./AI%20AgentX)**| ![Developing](https://img.shields.io/badge/-Upcoming-orange) | *Advanced autonomous agent for complex task execution.* | Agents, API |
 
