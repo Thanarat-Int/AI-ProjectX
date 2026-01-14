@@ -1,3 +1,7 @@
+> ระบบ AI สำหรับประมวลผลแบบฟอร์มอัตโนมัติ
+![Preview](./preview1.png)
+---
+
 # 🏛️ FinSight Enterprise Project Presentation
 
 ## 1. บทนำ: FinSight คืออะไร? (Introduction)
