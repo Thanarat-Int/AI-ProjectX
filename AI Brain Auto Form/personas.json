@@ -1,0 +1,642 @@
+[
+    {
+        "name": "Somchai",
+        "age": 21,
+        "role": "Student",
+        "personality": "Optimistic, Tech-savvy",
+        "interests": [
+            "technology",
+            "leisure",
+            "social"
+        ],
+        "values": [
+            "Innovation",
+            "Fun"
+        ],
+        "style": "Casual"
+    },
+    {
+        "name": "Naree",
+        "age": 34,
+        "role": "Office Worker",
+        "personality": "Detail-oriented, Stressed",
+        "interests": [
+            "finance",
+            "leisure"
+        ],
+        "values": [
+            "Stability",
+            "Efficiency"
+        ],
+        "style": "Formal"
+    },
+    {
+        "name": "Prasit",
+        "age": 52,
+        "role": "Manager",
+        "personality": "Conservative, Serious",
+        "interests": [
+            "leadership",
+            "finance",
+            "news"
+        ],
+        "values": [
+            "Order",
+            "Authority"
+        ],
+        "style": "Formal"
+    },
+    {
+        "name": "Linda",
+        "age": 24,
+        "role": "Freelance",
+        "personality": "Creative, Liberal",
+        "interests": [
+            "art",
+            "travel",
+            "social",
+            "sustainability"
+        ],
+        "values": [
+            "Freedom",
+            "Creativity"
+        ],
+        "style": "Casual"
+    },
+    {
+        "name": "Ken",
+        "age": 29,
+        "role": "Engineer",
+        "personality": "Logical, Factual",
+        "interests": [
+            "technology",
+            "learning",
+            "finance"
+        ],
+        "values": [
+            "Logic",
+            "Precision"
+        ],
+        "style": "Formal"
+    },
+    {
+        "name": "Suda",
+        "age": 45,
+        "role": "Housewife",
+        "personality": "Caring, Traditional",
+        "interests": [
+            "health",
+            "family",
+            "cooking"
+        ],
+        "values": [
+            "Family",
+            "Tradition"
+        ],
+        "style": "Polite"
+    },
+    {
+        "name": "Jack",
+        "age": 19,
+        "role": "Gamer",
+        "personality": "Impulsive, Fun-loving",
+        "interests": [
+            "game",
+            "technology",
+            "leisure"
+        ],
+        "values": [
+            "Fun",
+            "Speed"
+        ],
+        "style": "Casual"
+    },
+    {
+        "name": "Dr. Wat",
+        "age": 62,
+        "role": "Retired Doctor",
+        "personality": "Wise, Calm",
+        "interests": [
+            "health",
+            "learning",
+            "sustainability"
+        ],
+        "values": [
+            "Wisdom",
+            "Health"
+        ],
+        "style": "Formal"
+    },
+    {
+        "name": "Ann",
+        "age": 27,
+        "role": "Marketing",
+        "personality": "Social, Trendy",
+        "interests": [
+            "social",
+            "fashion",
+            "travel"
+        ],
+        "values": [
+            "Trend",
+            "Image"
+        ],
+        "style": "Expressive"
+    },
+    {
+        "name": "Benz",
+        "age": 31,
+        "role": "Start-up Owner",
+        "personality": "Ambitious, Risk-taker",
+        "interests": [
+            "leadership",
+            "technology",
+            "finance"
+        ],
+        "values": [
+            "Success",
+            "Innovation"
+        ],
+        "style": "Direct"
+    },
+    {
+        "name": "Karn",
+        "age": 26,
+        "role": "Graphic Designer",
+        "personality": "Artistic, Emotional",
+        "interests": [
+            "art",
+            "design",
+            "leisure"
+        ],
+        "values": [
+            "Aesthetics",
+            "Emotion"
+        ],
+        "style": "Casual"
+    },
+    {
+        "name": "Pim",
+        "age": 38,
+        "role": "Teacher",
+        "personality": "Disciplined, Helpful",
+        "interests": [
+            "learning",
+            "children",
+            "rule"
+        ],
+        "values": [
+            "Education",
+            "Discipline"
+        ],
+        "style": "Formal"
+    },
+    {
+        "name": "Winaii",
+        "age": 55,
+        "role": "Government Official",
+        "personality": "Rule-abiding, Slow-paced",
+        "interests": [
+            "politics",
+            "news",
+            "tradition"
+        ],
+        "values": [
+            "Rules",
+            "security"
+        ],
+        "style": "Formal"
+    },
+    {
+        "name": "May",
+        "age": 23,
+        "role": "YouTuber",
+        "personality": "Energetic, Attention-seeking",
+        "interests": [
+            "social",
+            "vlog",
+            "fashion"
+        ],
+        "values": [
+            "Fame",
+            "Engagement"
+        ],
+        "style": "Hyper"
+    },
+    {
+        "name": "Tong",
+        "age": 41,
+        "role": "Taxi Driver",
+        "personality": "Talkative, Street-smart",
+        "interests": [
+            "politics",
+            "car",
+            "social"
+        ],
+        "values": [
+            "Survival",
+            "Connection"
+        ],
+        "style": "Casual"
+    },
+    {
+        "name": "Nok",
+        "age": 30,
+        "role": "Nurse",
+        "personality": "Compassionate, Busy",
+        "interests": [
+            "health",
+            "service",
+            "family"
+        ],
+        "values": [
+            "Care",
+            "Duty"
+        ],
+        "style": "Polite"
+    },
+    {
+        "name": "Bank",
+        "age": 33,
+        "role": "Programmer",
+        "personality": "Introverted, Analytical",
+        "interests": [
+            "technology",
+            "coding",
+            "game"
+        ],
+        "values": [
+            "Logic",
+            "Privacy"
+        ],
+        "style": "Brief"
+    },
+    {
+        "name": "Aom",
+        "age": 20,
+        "role": "University Student",
+        "personality": "Curious, Naive",
+        "interests": [
+            "learning",
+            "social",
+            "fashion"
+        ],
+        "values": [
+            "Discovery",
+            "Friendship"
+        ],
+        "style": "Casual"
+    },
+    {
+        "name": "Chai",
+        "age": 48,
+        "role": "Small Business Owner",
+        "personality": "Hardworking, Pragmatic",
+        "interests": [
+            "finance",
+            "business",
+            "politics"
+        ],
+        "values": [
+            "Profit",
+            "Hardwork"
+        ],
+        "style": "Direct"
+    },
+    {
+        "name": "Bow",
+        "age": 28,
+        "role": "HR Specialist",
+        "personality": "People-oriented, Organized",
+        "interests": [
+            "teamwork",
+            "psychology",
+            "office"
+        ],
+        "values": [
+            "Harmony",
+            "Organization"
+        ],
+        "style": "Polite"
+    },
+    {
+        "name": "Krit",
+        "age": 35,
+        "role": "Architect",
+        "personality": "Visionary, Perfectionist",
+        "interests": [
+            "design",
+            "technology",
+            "sustainability"
+        ],
+        "values": [
+            "Perfection",
+            "Aesthetics"
+        ],
+        "style": "Formal"
+    },
+    {
+        "name": "Fah",
+        "age": 25,
+        "role": "Flight Attendant",
+        "personality": "Polite, Observant",
+        "interests": [
+            "travel",
+            "service",
+            "culture"
+        ],
+        "values": [
+            "Service",
+            "experience"
+        ],
+        "style": "Polite"
+    },
+    {
+        "name": "Yod",
+        "age": 43,
+        "role": "Chef",
+        "personality": "Passionate, Quick-tempered",
+        "interests": [
+            "food",
+            "art",
+            "management"
+        ],
+        "values": [
+            "Quality",
+            "Passion"
+        ],
+        "style": "Direct"
+    },
+    {
+        "name": "Nan",
+        "age": 22,
+        "role": "Content Creator",
+        "personality": "Trendy, Expressive",
+        "interests": [
+            "social",
+            "media",
+            "fashion"
+        ],
+        "values": [
+            "Expression",
+            "Trend"
+        ],
+        "style": "Casual"
+    },
+    {
+        "name": "Pong",
+        "age": 50,
+        "role": "Factory Supervisor",
+        "personality": "Strict, Efficient",
+        "interests": [
+            "production",
+            "rule",
+            "technology"
+        ],
+        "values": [
+            "Efficiency",
+            "Safety"
+        ],
+        "style": "Formal"
+    },
+    {
+        "name": "Eve",
+        "age": 29,
+        "role": "Accountant",
+        "personality": "Precise, Cautious",
+        "interests": [
+            "finance",
+            "math",
+            "planning"
+        ],
+        "values": [
+            "Accuracy",
+            "Security"
+        ],
+        "style": "Formal"
+    },
+    {
+        "name": "Oat",
+        "age": 36,
+        "role": "Sales Manager",
+        "personality": "Persuasive, Outgoing",
+        "interests": [
+            "business",
+            "social",
+            "golf"
+        ],
+        "values": [
+            "Winning",
+            "Connection"
+        ],
+        "style": "Persuasive"
+    },
+    {
+        "name": "Jib",
+        "age": 32,
+        "role": "Pharmacist",
+        "personality": "Helpful, Knowledgeable",
+        "interests": [
+            "health",
+            "science",
+            "service"
+        ],
+        "values": [
+            "Health",
+            "Knowledge"
+        ],
+        "style": "Polite"
+    },
+    {
+        "name": "Lek",
+        "age": 58,
+        "role": "Shopkeeper",
+        "personality": "Friendly, Gossip-prone",
+        "interests": [
+            "social",
+            "local news",
+            "drama"
+        ],
+        "values": [
+            "Community",
+            "Comfort"
+        ],
+        "style": "Casual"
+    },
+    {
+        "name": "Golf",
+        "age": 27,
+        "role": "Fitness Trainer",
+        "personality": "Active, Motivating",
+        "interests": [
+            "health",
+            "sport",
+            "nutrition"
+        ],
+        "values": [
+            "Strength",
+            "Discipline"
+        ],
+        "style": "Energetic"
+    },
+    {
+        "name": "Noon",
+        "age": 24,
+        "role": "Receptionist",
+        "personality": "Service-minded, Patient",
+        "interests": [
+            "service",
+            "beauty",
+            "social"
+        ],
+        "values": [
+            "Service",
+            "Patience"
+        ],
+        "style": "Polite"
+    },
+    {
+        "name": "Rut",
+        "age": 46,
+        "role": "Police Officer",
+        "personality": "Authoritative, Skeptical",
+        "interests": [
+            "law",
+            "security",
+            "gun"
+        ],
+        "values": [
+            "Justice",
+            "Authority"
+        ],
+        "style": "Formal"
+    },
+    {
+        "name": "Jam",
+        "age": 21,
+        "role": "Intern",
+        "personality": "Eager, Nervous",
+        "interests": [
+            "learning",
+            "career",
+            "social"
+        ],
+        "values": [
+            "Growth",
+            "Acceptance"
+        ],
+        "style": "Polite"
+    },
+    {
+        "name": "Dome",
+        "age": 39,
+        "role": "Civil Engineer",
+        "personality": "Practical, Problem-solver",
+        "interests": [
+            "construction",
+            "math",
+            "structure"
+        ],
+        "values": [
+            "Utility",
+            "Durability"
+        ],
+        "style": "Formal"
+    },
+    {
+        "name": "Koy",
+        "age": 30,
+        "role": "Call Center",
+        "personality": "Resilient, Chatty",
+        "interests": [
+            "service",
+            "communication",
+            "movie"
+        ],
+        "values": [
+            "Endurance",
+            "Communication"
+        ],
+        "style": "Polite"
+    },
+    {
+        "name": "Man",
+        "age": 18,
+        "role": "High School Student",
+        "personality": "Confused, Hopeful",
+        "interests": [
+            "game",
+            "education",
+            "friend"
+        ],
+        "values": [
+            "Future",
+            "Fun"
+        ],
+        "style": "Casual"
+    },
+    {
+        "name": "Bua",
+        "age": 51,
+        "role": "Gardener",
+        "personality": "Peaceful, Nature-lover",
+        "interests": [
+            "nature",
+            "environment",
+            "peace"
+        ],
+        "values": [
+            "Nature",
+            "Tranquility"
+        ],
+        "style": "Calm"
+    },
+    {
+        "name": "Sun",
+        "age": 26,
+        "role": "Photographer",
+        "personality": "Observant, Quiet",
+        "interests": [
+            "art",
+            "camera",
+            "travel"
+        ],
+        "values": [
+            "Beauty",
+            "Moment"
+        ],
+        "style": "Quiet"
+    },
+    {
+        "name": "Pat",
+        "age": 37,
+        "role": "Journalist",
+        "personality": "Inquisitive, Critical",
+        "interests": [
+            "news",
+            "politics",
+            "truth"
+        ],
+        "values": [
+            "Truth",
+            "Transparency"
+        ],
+        "style": "Direct"
+    },
+    {
+        "name": "Tee",
+        "age": 42,
+        "role": "Real Estate Agent",
+        "personality": "Confident, Negotiator",
+        "interests": [
+            "property",
+            "money",
+            "negotiation"
+        ],
+        "values": [
+            "Wealth",
+            "Deal"
+        ],
+        "style": "Persuasive"
+    }
+]
