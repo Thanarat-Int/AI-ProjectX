@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  ai-recruiter:
+    build: .
+    container_name: ai_resume_screener
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./data:/app/data # Persist database & uploads
+      - ./.env:/app/.env # Pass environment variables
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    restart: unless-stopped
+    networks:
+      - ai_net
+
+networks:
+  ai_net:
+    driver: bridge
