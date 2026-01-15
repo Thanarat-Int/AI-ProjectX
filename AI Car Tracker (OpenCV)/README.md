@@ -1,6 +1,6 @@
 # 🚦 Smart Traffic Analytics System (Edge AI)
 
-**(English below)**
+![Preview](./preview.png)
 
 ## 🇹🇭 เกี่ยวกับโปรเจกต์ (Project Overview)
 ระบบวิเคราะห์การจราจรอัจฉริยะ (Smart Traffic Analytics) พัฒนาด้วย **Python** และ **YOLOv8** เพื่อจำลองการทำงานของระบบ **Edge AI** ที่ใช้ในงานจริง เช่น ร้านค้าปลีก (Retail) หรือ Smart City
