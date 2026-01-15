@@ -40,12 +40,7 @@ class PersonaCard(ctk.CTkFrame):
 
     def update_card(self, persona):
         self.lbl_name.configure(text=persona['name'].upper())
-        
-        # Add Group & Level Label
-        group = DATA_MANAGER.get_group_for_role(persona['role'])
-        level = persona.get('level', 'General')
-        # Use vertical pipes and spacing for cleaner look
-        self.lbl_role.configure(text=f"{persona['role']}   |   {group}   |   {level}   |   Age {persona['age']}")
+        self.lbl_role.configure(text=f"{persona['role']} • Age {persona['age']}")
         
         traits = f"{persona.get('personality', '')}"
         if len(traits) > 25: traits = traits[:25] + "..."
@@ -54,11 +49,9 @@ class PersonaCard(ctk.CTkFrame):
         
         # Color coding based on Role Type
         color = "#2CC985" # Default Green
-        if level == "Executive": color = "#FFD700" # Gold
-        elif level == "Manager": color = "#E0A34F" # Orange
-        elif level == "Senior": color = "#106EBE" # Blue
-        elif level == "Entry": color = "#2CC985" # Green
-        elif level == "General": color = "#AAAAAA" # Gray
+        if "Student" in persona['role'] or "Gamer" in persona['role']: color = "#E04F5F" # Red
+        elif "Manager" in persona['role'] or "Officer" in persona['role']: color = "#106EBE" # Blue
+        elif "Artist" in persona['role'] or "Creator" in persona['role']: color = "#E0A34F" # Orange
         
         self.configure(border_color=color)
         self.lbl_traits.configure(text_color=color)
@@ -131,58 +124,6 @@ class PersonaEditor(ctk.CTkToplevel):
         DATA_MANAGER.add_persona(new_persona)
         self.destroy()
 
-# --- Group Filter Dialog (Multi-Select) ---
-class GroupFilterDialog(ctk.CTkToplevel):
-    def __init__(self, parent, current_selection, callback):
-        super().__init__(parent)
-        self.title("🎯 Filter Respondent Groups")
-        self.geometry("350x500")
-        self.attributes("-topmost", True)
-        self.callback = callback
-        self.params = current_selection if current_selection else ["All"]
-        
-        self.lbl_title = ctk.CTkLabel(self, text="Select Target Groups", font=("Arial", 18, "bold"))
-        self.lbl_title.pack(pady=15)
-        
-        self.scroll_frame = ctk.CTkScrollableFrame(self, width=300, height=350)
-        self.scroll_frame.pack(pady=5, padx=10, fill="both", expand=True)
-        
-        self.chk_vars = {}
-        all_groups = DATA_MANAGER.get_all_group_names()
-        
-        # Checkbox for each group
-        for group in all_groups:
-            var = ctk.StringVar(value=group if group in self.params or "All" in self.params else "")
-            chk = ctk.CTkCheckBox(self.scroll_frame, text=group, variable=var, onvalue=group, offvalue="")
-            chk.pack(pady=5, padx=10, anchor="w")
-            self.chk_vars[group] = var
-
-        # Action Buttons
-        self.btn_frame = ctk.CTkFrame(self, fg_color="transparent")
-        self.btn_frame.pack(pady=20, fill="x")
-        
-        self.btn_all = ctk.CTkButton(self.btn_frame, text="Select All", width=100, command=self.select_all, fg_color="#555")
-        self.btn_all.pack(side="left", padx=20)
-        
-        self.btn_save = ctk.CTkButton(self.btn_frame, text="✅ Save Filter", width=100, command=self.save_selection, fg_color="#2CC985")
-        self.btn_save.pack(side="right", padx=20)
-
-    def select_all(self):
-        for var in self.chk_vars.values():
-            var.set(var._on_value) # Set to group name
-
-    def save_selection(self):
-        selected = []
-        for var in self.chk_vars.values():
-            if var.get(): selected.append(var.get())
-            
-        # If all selected or none selected, treat as "All"
-        if len(selected) == len(self.chk_vars) or len(selected) == 0:
-            selected = ["All"]
-            
-        self.callback(selected)
-        self.destroy()
-
 # --- Main App ---
 class App(ctk.CTk):
     def __init__(self):
@@ -218,26 +159,15 @@ class App(ctk.CTk):
         self.entry_url.grid(row=3, column=0, padx=20, pady=(5, 15), sticky="ew")
         self.entry_url.insert(0, self.config.get("url", ""))
 
+        self.lbl_loop = ctk.CTkLabel(self.sidebar_frame, text="Total Loops:", anchor="w", font=ctk.CTkFont(weight="bold"))
+        self.lbl_loop.grid(row=4, column=0, padx=20, pady=(10, 0), sticky="w")
         self.entry_loop = ctk.CTkEntry(self.sidebar_frame)
         self.entry_loop.grid(row=5, column=0, padx=20, pady=(5, 15), sticky="ew")
         self.entry_loop.insert(0, self.config.get("loops", "5"))
-        
-        # Load saved groups or default to All
-        self.target_groups = self.config.get("target_groups", ["All"])
-
-        # Group Filter Layout
-        self.filter_frame = ctk.CTkFrame(self.sidebar_frame, fg_color="transparent")
-        self.filter_frame.grid(row=6, column=0, padx=20, pady=(5, 5), sticky="ew")
-        
-        self.btn_filter_group = ctk.CTkButton(self.filter_frame, text="🎯 Filter Groups", command=self.open_group_filter, fg_color="#E0A34F", text_color="#222")
-        self.btn_filter_group.pack(fill="x")
-        
-        self.lbl_group_status = ctk.CTkLabel(self.filter_frame, text=self.get_group_status_text(), font=ctk.CTkFont(size=11), text_color="#AAA")
-        self.lbl_group_status.pack(pady=2)
 
         # Advanced Controls Pannel
         self.adv_frame = ctk.CTkFrame(self.sidebar_frame, fg_color="#333", corner_radius=8)
-        self.adv_frame.grid(row=7, column=0, padx=15, pady=10, sticky="ew")
+        self.adv_frame.grid(row=6, column=0, padx=15, pady=10, sticky="ew")
         
         self.lbl_adv = ctk.CTkLabel(self.adv_frame, text="🔧 Advanced Config", font=("Arial", 12, "bold"))
         self.lbl_adv.pack(pady=10)
@@ -292,17 +222,6 @@ class App(ctk.CTk):
     def update_slider_label(self, value):
         self.lbl_thread_value.configure(text=f"{int(value)} Agent(s)")
 
-    def open_group_filter(self):
-        GroupFilterDialog(self, self.target_groups, self.update_group_selection)
-
-    def update_group_selection(self, selected_groups):
-        self.target_groups = selected_groups
-        self.lbl_group_status.configure(text=self.get_group_status_text())
-
-    def get_group_status_text(self):
-        if "All" in self.target_groups: return "Status: All Groups"
-        return f"Status: {len(self.target_groups)} Groups Selected"
-
     def open_editor(self):
         editor = PersonaEditor(self)
         editor.grab_set()
@@ -352,7 +271,7 @@ class App(ctk.CTk):
         try: total_loops = int(self.entry_loop.get())
         except: return
 
-        DATA_MANAGER.save_config(url, str(total_loops), self.target_groups)
+        DATA_MANAGER.save_config(url, str(total_loops))
         
         # Advanced Configs
         use_faker = bool(self.chk_faker.get())
@@ -372,14 +291,14 @@ class App(ctk.CTk):
         for i in range(num_threads):
             loops = loops_per_thread + (1 if i < remainder else 0)
             if loops > 0:
-                t = threading.Thread(target=self.run_bot_thread, args=(url, loops, headless, use_faker, i+1, self.target_groups))
+                t = threading.Thread(target=self.run_bot_thread, args=(url, loops, headless, use_faker, i+1))
                 t.daemon = True
                 t.start()
                 self.threads.append(t)
 
-    def run_bot_thread(self, url, loops, headless, use_faker, thread_id, target_groups):
+    def run_bot_thread(self, url, loops, headless, use_faker, thread_id):
         try:
-            bot = FormBot(url, loops, self.log_message, headless, use_faker, thread_id=thread_id, target_groups=target_groups)
+            bot = FormBot(url, loops, self.log_message, headless, use_faker, thread_id=thread_id)
             # Use main thread for UI callback to avoid conflicts
             bot.on_persona_change = self.update_persona_ui 
             bot.run()

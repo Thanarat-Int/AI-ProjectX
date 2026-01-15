@@ -7,18 +7,6 @@ import sys
 PERSONAS_FILE_NAME = "personas.json"
 CONFIG_FILE_NAME = "config.json"
 
-# --- RESPONDENT GROUPS DEFINITION ---
-RESPONDENT_GROUPS = {
-    "IT": ["Programmer", "Gamer", "Engineer", "Civil Engineer"],
-    "Marketing": ["Marketing", "Content Creator", "YouTuber", "Graphic Designer", "Journalist", "Photographer"],
-    "Finance": ["Accountant", "Sales Manager", "Small Business Owner", "Real Estate Agent", "Manager", "Start-up Owner"],
-    "HR": ["HR Specialist"],
-    "Healthcare": ["Retired Doctor", "Nurse", "Pharmacist"],
-    "Services": ["Receptionist", "Call Center", "Flight Attendant", "Taxi Driver", "Shopkeeper", "Gardener", "Chef", "Fitness Trainer"],
-    "Education": ["Teacher", "Student", "University Student", "High School Student", "Intern"],
-    "General": ["Government Official", "Police Officer", "Housewife", "Freelance"]
-}
-
 class DataManager:
     _instance = None
     
@@ -123,44 +111,13 @@ class DataManager:
             
         return {"url": "", "loops": "5"}
 
-    def save_config(self, url, loops, target_groups=None):
+    def save_config(self, url, loops):
         self.config = {"url": url, "loops": loops}
-        if target_groups:
-             self.config["target_groups"] = target_groups
-             
         user_path = self.get_user_file(CONFIG_FILE_NAME)
         try:
             with open(user_path, "w", encoding="utf-8") as f:
                 json.dump(self.config, f, indent=4)
         except: pass
-
-    def get_all_group_names(self):
-        """Returns list of all group names"""
-        return list(RESPONDENT_GROUPS.keys())
-
-    def get_personas_by_groups(self, group_names):
-        """Returns list of personas that belong to the selected groups"""
-        if not group_names or "All" in group_names:
-            return self.personas
-            
-        target_roles = []
-        for g_name in group_names:
-            if g_name in RESPONDENT_GROUPS:
-                target_roles.extend(RESPONDENT_GROUPS[g_name])
-                
-        # Filter personas
-        filtered = [p for p in self.personas if p.get("role") in target_roles]
-        
-        # Fallback if no match found (prevent crash)
-        return filtered if filtered else self.personas
-
-    def get_group_for_role(self, role):
-        """Finds which group a role belongs to"""
-        for group, roles in RESPONDENT_GROUPS.items():
-            # Check partial match or exact match
-            if any(r.lower() in role.lower() for r in roles):
-                return group
-        return "General"
 
 # Global Instance
 DATA_MANAGER = DataManager()

@@ -12,14 +12,13 @@ from data import DATA_MANAGER
 from brain import AIBrain
 
 class FormBot:
-    def __init__(self, url, loops, log_callback, headless=False, use_faker=False, thread_id=1, target_groups=None):
+    def __init__(self, url, loops, log_callback, headless=False, use_faker=False, thread_id=1):
         self.url = url
         self.loops = loops
         self.log = log_callback
         self.headless = headless
         self.use_faker = use_faker
         self.thread_id = thread_id
-        self.target_groups = target_groups
         self.on_persona_change = None # Callback for UI updates
         self.is_running = False
         self.brain = AIBrain()
@@ -80,13 +79,8 @@ class FormBot:
             for i in range(self.loops):
                 if not self.is_running: break
                 
-                # 1. Random Persona based on Target Groups
-                candidate_personas = DATA_MANAGER.get_personas_by_groups(self.target_groups)
-                if not candidate_personas:
-                    self.log("⚠️ No personas found for selected groups! Using ALL.")
-                    candidate_personas = DATA_MANAGER.personas
-                    
-                current_persona = random.choice(candidate_personas)
+                # 1. Random Persona
+                current_persona = random.choice(DATA_MANAGER.personas)
                 
                 # Notify UI
                 if self.on_persona_change:
