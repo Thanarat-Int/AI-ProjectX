@@ -1,0 +1,10 @@
+SCBX Example FAQ
+
+Q: How long is data retained?
+A: Standard retention is 7 years unless otherwise required.
+
+Q: Who approves access to restricted datasets?
+A: The data owner and security team.
+
+Q: What is the incident notification window?
+A: Notify the security team within 30 minutes.

@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  @apply bg-ink text-white antialiased;
+}
+
+.neon-bg {
+  background:
+    radial-gradient(600px 400px at 10% 10%, rgba(0, 230, 255, 0.18), transparent 60%),
+    radial-gradient(900px 600px at 90% -10%, rgba(255, 46, 147, 0.18), transparent 60%),
+    radial-gradient(700px 500px at 50% 100%, rgba(109, 124, 255, 0.22), transparent 60%);
+}
+
+.grid-overlay {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(circle at 50% 0%, rgba(0,0,0,0.9), transparent 70%);
+}
+
+.glass {
+  background: rgba(16, 19, 28, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(18px);
+}
+
+.glow-ring {
+  box-shadow: 0 0 40px rgba(0, 230, 255, 0.25), 0 0 80px rgba(109, 124, 255, 0.2);
+}

@@ -1,0 +1,13 @@
+SCBX Example Policy: Data Access and Usage
+
+Purpose:
+This document defines how employees may access and use internal data for product development.
+
+Key Rules:
+1. Access data only for approved business needs.
+2. Do not export customer data to personal devices.
+3. Use masking or anonymization for analytics.
+4. Retain data according to the data retention schedule.
+
+Escalation:
+If you need extended access, request approval from the data owner and security team.
