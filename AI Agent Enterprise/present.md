@@ -1,5 +1,7 @@
 # AI Agent (Enterprise Knowledge Assistant)
 
+![Preview](./preview.png)
+
 ## ภาษาไทย
 
 ### โปรเจกต์นี้คืออะไร
