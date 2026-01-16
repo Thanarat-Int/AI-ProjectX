@@ -1,6 +1,8 @@
 # 🧠 AI Brain - Intelligent Form Automation
 **Advanced Persona-based Form Filler with Unsupervised Learning**
 
+![Preview](./assets/af1.png)
+
 ## 🇬🇧 English Description
 **AI Brain** is a sophisticated automation tool designed to simulate human behavior in completing online forms (specifically Google Forms). Unlike standard bots, it uses a **Persona System** and **AI Clustering** to generate diverse, context-aware, and realistic responses.
 
