@@ -12,14 +12,14 @@ from data import DATA_MANAGER
 from brain import AIBrain
 
 class FormBot:
-    def __init__(self, url, loops, log_callback, headless=False, use_faker=False, thread_id=1, target_groups=None):
+    def __init__(self, url, loops, log_callback, headless=False, use_faker=False, thread_id=1, fixed_persona=None):
         self.url = url
         self.loops = loops
         self.log = log_callback
         self.headless = headless
         self.use_faker = use_faker
         self.thread_id = thread_id
-        self.target_groups = target_groups
+        self.fixed_persona = fixed_persona
         self.on_persona_change = None # Callback for UI updates
         self.is_running = False
         self.brain = AIBrain()
@@ -80,13 +80,14 @@ class FormBot:
             for i in range(self.loops):
                 if not self.is_running: break
                 
-                # 1. Random Persona based on Target Groups
-                candidate_personas = DATA_MANAGER.get_personas_by_groups(self.target_groups)
-                if not candidate_personas:
-                    self.log("⚠️ No personas found for selected groups! Using ALL.")
-                    candidate_personas = DATA_MANAGER.personas
-                    
-                current_persona = random.choice(candidate_personas)
+                # 1. Persona (fixed per agent if provided)
+                if self.fixed_persona:
+                    current_persona = self.fixed_persona
+                else:
+                    current_persona = random.choice(DATA_MANAGER.personas)
+
+                # Consistency memory per form run
+                stance_memory = {}
                 
                 # Notify UI
                 if self.on_persona_change:
@@ -145,7 +146,19 @@ class FormBot:
                                 
                                 if not opt_data: continue
 
-                                chosen_text = self.brain.decide_answer(q_text, [d[0] for d in opt_data], current_persona)
+                                # Remove forbidden answers (phrases + forbidden ages)
+                                allowed_texts = set(self.brain.filter_choice_options(q_text, [d[0] for d in opt_data]))
+                                opt_data = [(txt, elem) for txt, elem in opt_data if txt in allowed_texts]
+                                if not opt_data:
+                                    self.log("⚠️ Skipping question (all options are forbidden)")
+                                    continue
+
+                                chosen_text = self.brain.decide_answer(
+                                    q_text,
+                                    [d[0] for d in opt_data],
+                                    current_persona,
+                                    stance_memory=stance_memory
+                                )
                                 
                                 clicked_any = False
                                 for txt, elem in opt_data:

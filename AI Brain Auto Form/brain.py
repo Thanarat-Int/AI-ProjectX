@@ -1,5 +1,6 @@
 import random
 import json
+import re
 import urllib.request
 import urllib.error
 from faker import Faker
@@ -16,17 +17,20 @@ class AIBrain:
     def __init__(self):
         pass
 
-    def decide_answer(self, question_text, options, persona):
+    def decide_answer(self, question_text, options, persona, stance_memory=None):
         """
         Main Decision Hub
         """
         # 1. Clean Options
-        valid_options = self._filter_valid_options(options)
+        valid_options = self._filter_valid_options(options, question_text)
         if not valid_options:
             return random.choice(options) if options else ""
 
         # 2. Detect Context (Questions about Work? Life? Money?)
         context = self._detect_context(question_text)
+        topic = self._detect_attitude_topic(question_text)
+        stance = self._get_or_set_stance(topic, question_text, persona, stance_memory)
+        is_attitude = self._is_attitude_question(question_text, valid_options)
 
         # [GENIUS UPGRADE] Feed Data to Unsupervised Learner
         # The bot learns new vocabulary from every form it sees.
@@ -47,16 +51,189 @@ class AIBrain:
                 score += 0.5 
                 reason += f", Known Concept (C{cid})"
 
+            # Consistency boost for attitude questions
+            if stance is not None and is_attitude:
+                opt_sentiment = self._extract_sentiment(opt)
+                if opt_sentiment is not None:
+                    score += max(0, 3 - abs(opt_sentiment - stance))
+                    reason += f", Stance Align {stance}"
+
             scored_options.append({"text": opt, "score": score, "reason": reason})
 
         # 4. Select Best Option (Weighted Probabilistic)
-        chosen = self._weighted_selection(scored_options)
+        if stance is not None and is_attitude:
+            forced = self._force_consistent_choice(scored_options, stance)
+            chosen = forced if forced else self._weighted_selection(scored_options)
+        else:
+            chosen = self._weighted_selection(scored_options)
+
+        if stance_memory is not None and topic and is_attitude:
+            chosen_sentiment = self._extract_sentiment(chosen.get("text", ""))
+            if chosen_sentiment is not None:
+                stance_memory[self._topic_key(topic)] = chosen_sentiment
         return chosen['text']
 
-    def _filter_valid_options(self, options):
-        # Exclude "Other" or text-input fields
-        return [opt for opt in options 
-                if not any(x in opt.lower() for x in ["other", "อื่น", "ระบุ"])]
+    def _get_forbidden_phrases(self):
+        phrases = DATA_MANAGER.config.get("forbidden_answers", [])
+        if isinstance(phrases, str):
+            phrases = [phrases]
+        return [p.strip().lower() for p in phrases if p and p.strip()]
+
+    def _get_forbidden_match_mode(self):
+        mode = DATA_MANAGER.config.get("forbidden_match_mode", "exact")
+        return mode if mode in ["exact", "contains"] else "exact"
+
+    def _normalize_text(self, text):
+        return " ".join(text.lower().split())
+
+    def _is_forbidden(self, text, forbidden_phrases):
+        text_norm = self._normalize_text(text)
+        mode = self._get_forbidden_match_mode()
+        if mode == "exact":
+            return any(self._normalize_text(p) == text_norm for p in forbidden_phrases)
+        return any(self._normalize_text(p) in text_norm for p in forbidden_phrases)
+
+    def filter_options(self, options):
+        forbidden = self._get_forbidden_phrases()
+        if not forbidden:
+            return options
+        return [opt for opt in options if not self._is_forbidden(opt, forbidden)]
+
+    def _get_forbidden_age_rules(self):
+        rules = DATA_MANAGER.config.get("forbidden_age_rules", []) or []
+
+        # Backward compatibility for explicit age list
+        ages = DATA_MANAGER.config.get("forbidden_ages", []) or []
+        if isinstance(ages, str):
+            ages = [a.strip() for a in ages.split(",")]
+        for a in ages:
+            try:
+                rules.append({"type": "eq", "value": int(a)})
+            except Exception:
+                continue
+
+        return rules
+
+    def _is_age_question(self, question_text):
+        q = question_text.lower()
+        if any(k in q for k in ["age", "อายุ", "years old"]):
+            return True
+        if "ปี" in q and re.search(r"\d{1,3}", q):
+            return True
+        return False
+
+    def _options_look_like_age(self, options):
+        for opt in options:
+            t = opt.lower()
+            if "ปี" in t or "years" in t:
+                return True
+            if re.search(r"\d{1,3}\s*[-–]\s*\d{1,3}", t):
+                return True
+            if re.search(r"\d{1,3}\s*\+?", t):
+                return True
+        return False
+
+    def _extract_ages_from_text(self, text):
+        # Handles "20", "20 ปี", and ranges like "20-25"
+        ages = []
+        for m in re.findall(r"(\d{1,3})", text):
+            try:
+                ages.append(int(m))
+            except Exception:
+                pass
+        return ages
+
+    def _text_to_range(self, text):
+        t = text.lower()
+        range_match = re.search(r"(\d{1,3})\s*[-–]\s*(\d{1,3})", t)
+        if range_match:
+            start = int(range_match.group(1))
+            end = int(range_match.group(2))
+            if start > end:
+                start, end = end, start
+            return start, end
+
+        nums = self._extract_ages_from_text(t)
+        if not nums:
+            return None
+        n = nums[0]
+
+        if any(k in t for k in ["ต่ำกว่า", "น้อยกว่า", "less than", "under", "<"]):
+            return 0, n - 1
+        if any(k in t for k in ["ขึ้นไป", "มากกว่า", "greater", "over", "above", ">=", ">"]):
+            return n, 200
+
+        return n, n
+
+    def _rule_to_range(self, rule):
+        r_type = rule.get("type")
+        if r_type == "lt":
+            return 0, rule.get("value", 0) - 1
+        if r_type == "lte":
+            return 0, rule.get("value", 0)
+        if r_type == "gt":
+            return rule.get("value", 0) + 1, 200
+        if r_type == "gte":
+            return rule.get("value", 0), 200
+        if r_type == "range":
+            return rule.get("min", 0), rule.get("max", 200)
+        if r_type == "eq":
+            v = rule.get("value", 0)
+            return v, v
+        return None
+
+    def _ranges_overlap(self, a_min, a_max, b_min, b_max):
+        return not (a_max < b_min or b_max < a_min)
+
+    def _is_forbidden_age_text(self, text, rules):
+        option_range = self._text_to_range(text)
+        if not option_range:
+            return False
+        o_min, o_max = option_range
+        for rule in rules:
+            r_range = self._rule_to_range(rule)
+            if not r_range:
+                continue
+            r_min, r_max = r_range
+            if self._ranges_overlap(o_min, o_max, r_min, r_max):
+                return True
+        return False
+
+    def _age_matches_rules(self, age, rules):
+        for rule in rules:
+            r_type = rule.get("type")
+            if r_type == "lt" and age < rule.get("value", 0):
+                return True
+            if r_type == "lte" and age <= rule.get("value", 0):
+                return True
+            if r_type == "gt" and age > rule.get("value", 0):
+                return True
+            if r_type == "gte" and age >= rule.get("value", 0):
+                return True
+            if r_type == "range" and rule.get("min", 0) <= age <= rule.get("max", 200):
+                return True
+            if r_type == "eq" and age == rule.get("value", 0):
+                return True
+        return False
+
+    def _filter_valid_options(self, options, question_text):
+        # Exclude "Other" or text-input fields, plus forbidden phrases
+        forbidden = self._get_forbidden_phrases()
+        age_rules = self._get_forbidden_age_rules()
+        is_age_q = self._is_age_question(question_text) or self._options_look_like_age(options)
+        return [
+            opt for opt in options
+            if not any(x in opt.lower() for x in ["other", "อื่น", "ระบุ"])
+            and not self._is_forbidden(opt, forbidden)
+            and not (
+                is_age_q
+                and age_rules
+                and self._is_forbidden_age_text(opt, age_rules)
+            )
+        ]
+
+    def filter_choice_options(self, question_text, options):
+        return self._filter_valid_options(options, question_text)
 
     def _detect_context(self, question_text):
         q_lower = question_text.lower()
@@ -65,6 +242,107 @@ class AIBrain:
             if any(k in q_lower for k in keywords):
                 found_contexts.append(ctx)
         return found_contexts
+
+    def _detect_attitude_topic(self, question_text):
+        q = question_text.lower()
+        topic_map = {
+            "wfh": ["wfh", "work from home", "ทำงานที่บ้าน", "remote", "ทางไกล"],
+            "organization": ["องค์กร", "บริษัท", "ที่ทำงาน", "องค์กรนี้", "company", "organization"],
+            "work": ["งาน", "job", "work", "ภาระงาน"],
+            "manager": ["หัวหน้า", "manager", "lead", "ผู้จัดการ"],
+            "benefits": ["สวัสดิการ", "benefit", "ค่าตอบแทน", "เงินเดือน", "salary"],
+            "culture": ["วัฒนธรรม", "culture", "ทีม", "บรรยากาศ"],
+            "happiness": ["มีความสุข", "พอใจ", "satisfied", "happy", "enjoy", "รัก", "ชอบ"],
+        }
+        for topic, keys in topic_map.items():
+            if any(k in q for k in keys):
+                return topic
+        return None
+
+    def _topic_key(self, topic):
+        if not topic:
+            return None
+        work_topics = {"wfh", "organization", "work", "manager", "benefits", "culture", "happiness"}
+        if topic in work_topics:
+            return "work_core"
+        return topic
+
+    def _is_attitude_question(self, question_text, options):
+        q = question_text.lower()
+        if any(k in q for k in ["ชอบ", "รัก", "พอใจ", "มีความสุข", "เห็นด้วย", "disagree", "agree", "satisfied", "happy", "enjoy"]):
+            return True
+        for opt in options:
+            if self._extract_sentiment(opt) is not None:
+                return True
+        return False
+
+    def _extract_sentiment(self, option_text):
+        opt_lower = option_text.lower()
+        for k, v in AGREEMENT_KEYWORDS.items():
+            if k in opt_lower:
+                return v
+        return None
+
+    def _get_or_set_stance(self, topic, question_text, persona, stance_memory):
+        if not topic or stance_memory is None:
+            return None
+        key = self._topic_key(topic)
+        if key in stance_memory:
+            return stance_memory[key]
+        stance = self._initial_stance(topic, question_text, persona)
+        if stance is not None:
+            stance_memory[key] = stance
+        return stance
+
+    def _initial_stance(self, topic, question_text, persona):
+        q = question_text.lower()
+        values = [v.lower() for v in persona.get("values", [])]
+        personality = persona.get("personality", "").lower()
+        interests = [i.lower() for i in persona.get("interests", [])]
+
+        if any(v in q for v in values):
+            return 4
+
+        if any(t in personality for t in ["optimistic", "energetic", "friendly"]):
+            return 4
+        if any(t in personality for t in ["stressed", "skeptical", "cautious", "serious"]):
+            return 2
+
+        if topic == "wfh":
+            if any(t in personality for t in ["introverted", "calm", "quiet"]):
+                return 4
+            if any(t in personality for t in ["extroverted", "social", "outgoing"]):
+                return 2
+            if "freedom" in values or "flexibility" in values:
+                return 4
+            if "teamwork" in interests or "social" in interests:
+                return 2
+
+        return 3
+
+    def _force_consistent_choice(self, scored_options, stance):
+        if stance >= 4:
+            target = "pos"
+        elif stance <= 2:
+            target = "neg"
+        else:
+            target = "neu"
+
+        filtered = []
+        for item in scored_options:
+            opt_sentiment = self._extract_sentiment(item.get("text", ""))
+            if opt_sentiment is None:
+                continue
+            if target == "pos" and opt_sentiment >= 4:
+                filtered.append(item)
+            elif target == "neg" and opt_sentiment <= 2:
+                filtered.append(item)
+            elif target == "neu" and opt_sentiment == 3:
+                filtered.append(item)
+
+        if not filtered:
+            return None
+        return self._weighted_selection(filtered)
 
     def _calculate_affinity(self, option_text, persona, context_list, question_text):
         """
@@ -175,6 +453,9 @@ class AIBrain:
         Decides what to type in text fields.
         Supports Faker for identity fields if enabled.
         """
+        age_rules = self._get_forbidden_age_rules()
+        if self._is_age_question(question_text) and self._age_matches_rules(persona.get("age", 0), age_rules):
+            return None
         if use_faker:
             fake = Faker('th_TH')
             q_lower = question_text.lower()

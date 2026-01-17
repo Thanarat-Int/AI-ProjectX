@@ -1,7 +1,27 @@
 {
-    "url": "https://docs.google.com/forms/d/e/1FAIpQLSe6rdW6j5yiN_P06cTF7u5a-mB85XwdKPqbKDofQ-7_kUZOCQ/viewform?usp=dialog",
-    "loops": "4",
+    "url": "https://docs.google.com/forms/d/e/1FAIpQLSep7XqRakLOgRG9sBUc3nHhW8apfFOCHtGGvDD5eeScYEG8eQ/viewform?fbzx=8533751471908331334",
+    "loops": "10",
     "target_groups": [
-        "All"
+        "IT"
+    ],
+    "target_positions": [
+        "Engineer",
+        "IT Support",
+        "Programmer",
+        "QA",
+        "SA",
+        "Tester"
+    ],
+    "forbidden_answers": [
+        "\u0e44\u0e21\u0e48\u0e44\u0e14\u0e49\u0e17\u0e33\u0e07\u0e32\u0e19\u0e43\u0e19\u0e02\u0e13\u0e30\u0e19\u0e35\u0e49",
+        "\u0e17\u0e33\u0e07\u0e32\u0e19\u0e08\u0e32\u0e01\u0e17\u0e35\u0e48\u0e17\u0e33\u0e07\u0e32\u0e19\u0e17\u0e31\u0e49\u0e07\u0e2b\u0e21\u0e14 (On-site Only) - \u0e08\u0e1a\u0e41\u0e1a\u0e1a\u0e2a\u0e2d\u0e1a\u0e16\u0e32\u0e21"
+    ],
+    "forbidden_match_mode": "exact",
+    "forbidden_ages": [],
+    "forbidden_age_rules": [
+        {
+            "type": "gte",
+            "value": 55
+        }
     ]
 }

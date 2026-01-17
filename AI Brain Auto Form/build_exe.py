@@ -20,6 +20,7 @@ PyInstaller.__main__.run([
     '--icon=assets/icon.ico',        # App Icon
     '--add-data=personas.json;.',    
     '--add-data=config.json;.',      
+    '--add-data=groups.json;.',      
     '--add-data=assets;assets',      
     f'--add-data={ctk_path};customtkinter', # FORCE include CTk assets
     '--hidden-import=PIL',           

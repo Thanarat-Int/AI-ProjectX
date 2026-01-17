@@ -1,0 +1,61 @@
+{
+    "IT": [
+        "SA",
+        "QA",
+        "Programmer",
+        "Tester",
+        "BA",
+        "IT Support",
+        "Engineer"
+    ],
+    "Marketing": [
+        "Marketing",
+        "Content Creator",
+        "YouTuber",
+        "Graphic Designer",
+        "Journalist",
+        "Photographer"
+    ],
+    "Finance": [
+        "Accountant",
+        "Sales Manager",
+        "Small Business Owner",
+        "Real Estate Agent",
+        "Manager",
+        "Start-up Owner",
+        "CFO"
+    ],
+    "HR": [
+        "HR Specialist"
+    ],
+    "Healthcare": [
+        "Retired Doctor",
+        "Nurse",
+        "Pharmacist",
+        "Hospital Director"
+    ],
+    "Services": [
+        "Receptionist",
+        "Call Center",
+        "Flight Attendant",
+        "Taxi Driver",
+        "Shopkeeper",
+        "Gardener",
+        "Chef",
+        "Fitness Trainer"
+    ],
+    "Education": [
+        "Teacher",
+        "Student",
+        "University Student",
+        "High School Student",
+        "Intern",
+        "School Principal"
+    ],
+    "General": [
+        "Government Official",
+        "Police Officer",
+        "Housewife",
+        "Freelance"
+    ]
+}

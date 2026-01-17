@@ -3,7 +3,6 @@
         "name": "Somchai",
         "age": 21,
         "role": "Student",
-        "level": "Entry",
         "personality": "Optimistic, Tech-savvy",
         "interests": [
             "technology",
@@ -20,7 +19,6 @@
         "name": "Naree",
         "age": 34,
         "role": "Office Worker",
-        "level": "Senior",
         "personality": "Detail-oriented, Stressed",
         "interests": [
             "finance",
@@ -36,7 +34,6 @@
         "name": "Prasit",
         "age": 52,
         "role": "Manager",
-        "level": "Manager",
         "personality": "Conservative, Serious",
         "interests": [
             "leadership",
@@ -53,7 +50,6 @@
         "name": "Linda",
         "age": 24,
         "role": "Freelance",
-        "level": "Entry",
         "personality": "Creative, Liberal",
         "interests": [
             "art",
@@ -71,7 +67,6 @@
         "name": "Ken",
         "age": 29,
         "role": "Engineer",
-        "level": "Senior",
         "personality": "Logical, Factual",
         "interests": [
             "technology",
@@ -88,7 +83,6 @@
         "name": "Suda",
         "age": 45,
         "role": "Housewife",
-        "level": "General",
         "personality": "Caring, Traditional",
         "interests": [
             "health",
@@ -105,7 +99,6 @@
         "name": "Jack",
         "age": 19,
         "role": "Gamer",
-        "level": "Entry",
         "personality": "Impulsive, Fun-loving",
         "interests": [
             "game",
@@ -122,7 +115,6 @@
         "name": "Dr. Wat",
         "age": 62,
         "role": "Retired Doctor",
-        "level": "Executive",
         "personality": "Wise, Calm",
         "interests": [
             "health",
@@ -139,7 +131,6 @@
         "name": "Ann",
         "age": 27,
         "role": "Marketing",
-        "level": "Senior",
         "personality": "Social, Trendy",
         "interests": [
             "social",
@@ -156,7 +147,6 @@
         "name": "Benz",
         "age": 31,
         "role": "Start-up Owner",
-        "level": "Executive",
         "personality": "Ambitious, Risk-taker",
         "interests": [
             "leadership",
@@ -173,7 +163,6 @@
         "name": "Karn",
         "age": 26,
         "role": "Graphic Designer",
-        "level": "Senior",
         "personality": "Artistic, Emotional",
         "interests": [
             "art",
@@ -190,7 +179,6 @@
         "name": "Pim",
         "age": 38,
         "role": "Teacher",
-        "level": "Senior",
         "personality": "Disciplined, Helpful",
         "interests": [
             "learning",
@@ -207,7 +195,6 @@
         "name": "Winaii",
         "age": 55,
         "role": "Government Official",
-        "level": "Manager",
         "personality": "Rule-abiding, Slow-paced",
         "interests": [
             "politics",
@@ -224,7 +211,6 @@
         "name": "May",
         "age": 23,
         "role": "YouTuber",
-        "level": "Entry",
         "personality": "Energetic, Attention-seeking",
         "interests": [
             "social",
@@ -241,7 +227,6 @@
         "name": "Tong",
         "age": 41,
         "role": "Taxi Driver",
-        "level": "General",
         "personality": "Talkative, Street-smart",
         "interests": [
             "politics",
@@ -258,7 +243,6 @@
         "name": "Nok",
         "age": 30,
         "role": "Nurse",
-        "level": "Senior",
         "personality": "Compassionate, Busy",
         "interests": [
             "health",
@@ -275,7 +259,6 @@
         "name": "Bank",
         "age": 33,
         "role": "Programmer",
-        "level": "Senior",
         "personality": "Introverted, Analytical",
         "interests": [
             "technology",
@@ -292,7 +275,6 @@
         "name": "Aom",
         "age": 20,
         "role": "University Student",
-        "level": "Entry",
         "personality": "Curious, Naive",
         "interests": [
             "learning",
@@ -309,7 +291,6 @@
         "name": "Chai",
         "age": 48,
         "role": "Small Business Owner",
-        "level": "Executive",
         "personality": "Hardworking, Pragmatic",
         "interests": [
             "finance",
@@ -326,7 +307,6 @@
         "name": "Bow",
         "age": 28,
         "role": "HR Specialist",
-        "level": "Senior",
         "personality": "People-oriented, Organized",
         "interests": [
             "teamwork",
@@ -343,7 +323,6 @@
         "name": "Krit",
         "age": 35,
         "role": "Architect",
-        "level": "Manager",
         "personality": "Visionary, Perfectionist",
         "interests": [
             "design",
@@ -360,7 +339,6 @@
         "name": "Fah",
         "age": 25,
         "role": "Flight Attendant",
-        "level": "Senior",
         "personality": "Polite, Observant",
         "interests": [
             "travel",
@@ -377,7 +355,6 @@
         "name": "Yod",
         "age": 43,
         "role": "Chef",
-        "level": "Manager",
         "personality": "Passionate, Quick-tempered",
         "interests": [
             "food",
@@ -394,7 +371,6 @@
         "name": "Nan",
         "age": 22,
         "role": "Content Creator",
-        "level": "Entry",
         "personality": "Trendy, Expressive",
         "interests": [
             "social",
@@ -411,7 +387,6 @@
         "name": "Pong",
         "age": 50,
         "role": "Factory Supervisor",
-        "level": "Manager",
         "personality": "Strict, Efficient",
         "interests": [
             "production",
@@ -428,7 +403,6 @@
         "name": "Eve",
         "age": 29,
         "role": "Accountant",
-        "level": "Senior",
         "personality": "Precise, Cautious",
         "interests": [
             "finance",
@@ -445,7 +419,6 @@
         "name": "Oat",
         "age": 36,
         "role": "Sales Manager",
-        "level": "Manager",
         "personality": "Persuasive, Outgoing",
         "interests": [
             "business",
@@ -462,7 +435,6 @@
         "name": "Jib",
         "age": 32,
         "role": "Pharmacist",
-        "level": "Senior",
         "personality": "Helpful, Knowledgeable",
         "interests": [
             "health",
@@ -479,7 +451,6 @@
         "name": "Lek",
         "age": 58,
         "role": "Shopkeeper",
-        "level": "Manager",
         "personality": "Friendly, Gossip-prone",
         "interests": [
             "social",
@@ -496,7 +467,6 @@
         "name": "Golf",
         "age": 27,
         "role": "Fitness Trainer",
-        "level": "Senior",
         "personality": "Active, Motivating",
         "interests": [
             "health",
@@ -513,7 +483,6 @@
         "name": "Noon",
         "age": 24,
         "role": "Receptionist",
-        "level": "Entry",
         "personality": "Service-minded, Patient",
         "interests": [
             "service",
@@ -530,7 +499,6 @@
         "name": "Rut",
         "age": 46,
         "role": "Police Officer",
-        "level": "Manager",
         "personality": "Authoritative, Skeptical",
         "interests": [
             "law",
@@ -547,7 +515,6 @@
         "name": "Jam",
         "age": 21,
         "role": "Intern",
-        "level": "Entry",
         "personality": "Eager, Nervous",
         "interests": [
             "learning",
@@ -564,7 +531,6 @@
         "name": "Dome",
         "age": 39,
         "role": "Civil Engineer",
-        "level": "Senior",
         "personality": "Practical, Problem-solver",
         "interests": [
             "construction",
@@ -581,7 +547,6 @@
         "name": "Koy",
         "age": 30,
         "role": "Call Center",
-        "level": "Entry",
         "personality": "Resilient, Chatty",
         "interests": [
             "service",
@@ -598,7 +563,6 @@
         "name": "Man",
         "age": 18,
         "role": "High School Student",
-        "level": "Entry",
         "personality": "Confused, Hopeful",
         "interests": [
             "game",
@@ -615,7 +579,6 @@
         "name": "Bua",
         "age": 51,
         "role": "Gardener",
-        "level": "General",
         "personality": "Peaceful, Nature-lover",
         "interests": [
             "nature",
@@ -632,7 +595,6 @@
         "name": "Sun",
         "age": 26,
         "role": "Photographer",
-        "level": "Senior",
         "personality": "Observant, Quiet",
         "interests": [
             "art",
@@ -649,7 +611,6 @@
         "name": "Pat",
         "age": 37,
         "role": "Journalist",
-        "level": "Senior",
         "personality": "Inquisitive, Critical",
         "interests": [
             "news",
@@ -666,7 +627,6 @@
         "name": "Tee",
         "age": 42,
         "role": "Real Estate Agent",
-        "level": "Manager",
         "personality": "Confident, Negotiator",
         "interests": [
             "property",
@@ -678,107 +638,5 @@
             "Deal"
         ],
         "style": "Persuasive"
-    },
-    {
-        "name": "Wichai",
-        "age": 49,
-        "role": "CTO",
-        "level": "Executive",
-        "personality": "Visionary, Tech-focused",
-        "interests": [
-            "innovation",
-            "cloud",
-            "future"
-        ],
-        "values": [
-            "Innovation",
-            "Scale"
-        ],
-        "style": "Modern"
-    },
-    {
-        "name": "Laddawan",
-        "age": 53,
-        "role": "CFO",
-        "level": "Executive",
-        "personality": "Prudent, Strategic",
-        "interests": [
-            "market",
-            "investment",
-            "risk"
-        ],
-        "values": [
-            "ROI",
-            "Growth"
-        ],
-        "style": "Formal"
-    },
-    {
-        "name": "Siri",
-        "age": 45,
-        "role": "CMO",
-        "level": "Executive",
-        "personality": "Creative, Big-picture",
-        "interests": [
-            "branding",
-            "market share",
-            "viral"
-        ],
-        "values": [
-            "Impact",
-            "Brand"
-        ],
-        "style": "Expressive"
-    },
-    {
-        "name": "Dr. Prang",
-        "age": 58,
-        "role": "Hospital Director",
-        "level": "Executive",
-        "personality": "Leader, Calm",
-        "interests": [
-            "public health",
-            "policy",
-            "management"
-        ],
-        "values": [
-            "Well-being",
-            "Excellence"
-        ],
-        "style": "Formal"
-    },
-    {
-        "name": "Kanda",
-        "age": 50,
-        "role": "School Principal",
-        "level": "Executive",
-        "personality": "Educational, Strict",
-        "interests": [
-            "curriculum",
-            "discipline",
-            "future"
-        ],
-        "values": [
-            "Education",
-            "Integrity"
-        ],
-        "style": "Proper"
-    },
-    {
-        "name": "Chok",
-        "age": 24,
-        "role": "IT Support",
-        "level": "Entry",
-        "personality": "Helpful, Patient",
-        "interests": [
-            "hardware",
-            "game",
-            "fixing"
-        ],
-        "values": [
-            "Service",
-            "Solution"
-        ],
-        "style": "Casual"
     }
 ]
