@@ -29,8 +29,12 @@ class AIBrain:
         # 2. Detect Context (Questions about Work? Life? Money?)
         context = self._detect_context(question_text)
         topic = self._detect_attitude_topic(question_text)
-        stance = self._get_or_set_stance(topic, question_text, persona, stance_memory)
         is_attitude = self._is_attitude_question(question_text, valid_options)
+        is_scale = self._is_scale_question(valid_options)
+        base_stance = self._get_or_set_stance(topic, question_text, persona, stance_memory, is_scale=is_scale)
+        stance = base_stance
+        if base_stance is not None and is_attitude and self._is_negative_question(question_text):
+            stance = self._invert_stance(base_stance)
 
         # [GENIUS UPGRADE] Feed Data to Unsupervised Learner
         # The bot learns new vocabulary from every form it sees.
@@ -54,6 +58,8 @@ class AIBrain:
             # Consistency boost for attitude questions
             if stance is not None and is_attitude:
                 opt_sentiment = self._extract_sentiment(opt)
+                if opt_sentiment is None and is_scale:
+                    opt_sentiment = self._extract_scale_value(opt)
                 if opt_sentiment is not None:
                     score += max(0, 3 - abs(opt_sentiment - stance))
                     reason += f", Stance Align {stance}"
@@ -62,15 +68,22 @@ class AIBrain:
 
         # 4. Select Best Option (Weighted Probabilistic)
         if stance is not None and is_attitude:
-            forced = self._force_consistent_choice(scored_options, stance)
+            if is_scale:
+                forced = self._force_consistent_scale_choice(scored_options, stance)
+            else:
+                forced = self._force_consistent_choice(scored_options, stance)
             chosen = forced if forced else self._weighted_selection(scored_options)
         else:
             chosen = self._weighted_selection(scored_options)
 
         if stance_memory is not None and topic and is_attitude:
-            chosen_sentiment = self._extract_sentiment(chosen.get("text", ""))
-            if chosen_sentiment is not None:
-                stance_memory[self._topic_key(topic)] = chosen_sentiment
+            key = self._topic_key(topic)
+            if key not in stance_memory:
+                chosen_sentiment = self._extract_sentiment(chosen.get("text", ""))
+                if chosen_sentiment is None and is_scale:
+                    chosen_sentiment = self._extract_scale_value(chosen.get("text", ""))
+                if chosen_sentiment is not None:
+                    stance_memory[key] = chosen_sentiment
         return chosen['text']
 
     def _get_forbidden_phrases(self):
@@ -267,14 +280,61 @@ class AIBrain:
             return "work_core"
         return topic
 
-    def _is_attitude_question(self, question_text, options):
+    def _has_attitude_keywords(self, question_text):
         q = question_text.lower()
-        if any(k in q for k in ["ชอบ", "รัก", "พอใจ", "มีความสุข", "เห็นด้วย", "disagree", "agree", "satisfied", "happy", "enjoy"]):
+        keywords = [
+            "ชอบ", "รัก", "พอใจ", "มีความสุข", "ภูมิใจ", "ผูกพัน",
+            "ทุ่มเท", "ตั้งใจ", "ความหมาย", "อยากอยู่", "ต้องการอยู่",
+            "เห็นด้วย", "ไม่เห็นด้วย", "รู้สึก", "คิดเห็น", "เชื่อว่า",
+            "มองว่า", "คิดว่า", "ยินดี", "พร้อม", "loyal", "proud",
+            "engage", "belong", "commit", "satisfied", "happy", "enjoy",
+            "agree", "disagree"
+        ]
+        return any(k in q for k in keywords)
+
+    def _is_attitude_question(self, question_text, options):
+        if self._detect_attitude_topic(question_text):
+            return True
+        if self._has_attitude_keywords(question_text):
             return True
         for opt in options:
             if self._extract_sentiment(opt) is not None:
                 return True
+        if self._is_scale_question(options):
+            return True
         return False
+
+    def _is_negative_question(self, question_text):
+        q = question_text.lower()
+        neg_terms = [
+            "ไม่", "ไม่ได้", "ไม่เคย", "ไม่มี", "ไม่ค่อย", "ไม่รู้สึก",
+            "ไม่ต้องการ", "ไม่อยาก", "not", "never", "hardly", "rarely", "no longer"
+        ]
+        return any(t in q for t in neg_terms)
+
+    def _invert_stance(self, stance, max_val=5):
+        try:
+            val = int(stance)
+        except Exception:
+            return stance
+        return max_val + 1 - val
+
+    def _is_scale_question(self, options):
+        vals = [self._extract_scale_value(o) for o in options]
+        vals = [v for v in vals if v is not None]
+        if len(vals) < 3:
+            return False
+        return 1 <= min(vals) and max(vals) <= 10
+
+    def _extract_scale_value(self, option_text):
+        nums = re.findall(r"\d{1,2}", option_text)
+        if not nums:
+            return None
+        try:
+            val = int(nums[0])
+        except Exception:
+            return None
+        return val if 1 <= val <= 10 else None
 
     def _extract_sentiment(self, option_text):
         opt_lower = option_text.lower()
@@ -283,13 +343,15 @@ class AIBrain:
                 return v
         return None
 
-    def _get_or_set_stance(self, topic, question_text, persona, stance_memory):
+    def _get_or_set_stance(self, topic, question_text, persona, stance_memory, is_scale=False):
         if not topic or stance_memory is None:
             return None
         key = self._topic_key(topic)
         if key in stance_memory:
             return stance_memory[key]
         stance = self._initial_stance(topic, question_text, persona)
+        if is_scale:
+            stance = self._scale_base_stance(stance)
         if stance is not None:
             stance_memory[key] = stance
         return stance
@@ -343,6 +405,36 @@ class AIBrain:
         if not filtered:
             return None
         return self._weighted_selection(filtered)
+
+    def _force_consistent_scale_choice(self, scored_options, stance):
+        target = self._clamp_scale(stance + random.choice([-1, 0, 1]))
+        best = []
+        best_diff = 999
+        for item in scored_options:
+            val = self._extract_scale_value(item.get("text", ""))
+            if val is None:
+                continue
+            diff = abs(val - target)
+            if diff < best_diff:
+                best = [item]
+                best_diff = diff
+            elif diff == best_diff:
+                best.append(item)
+        if not best:
+            return None
+        return self._weighted_selection(best)
+
+    def _clamp_scale(self, value, min_val=1, max_val=5):
+        try:
+            val = int(value)
+        except Exception:
+            return min_val
+        return max(min_val, min(max_val, val))
+
+    def _scale_base_stance(self, stance):
+        if stance is None:
+            return None
+        return self._clamp_scale(stance + random.choice([-1, 0, 1]))
 
     def _calculate_affinity(self, option_text, persona, context_list, question_text):
         """
