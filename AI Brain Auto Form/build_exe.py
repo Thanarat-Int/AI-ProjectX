@@ -10,7 +10,7 @@ ctk_path = os.path.dirname(customtkinter.__file__)
 if os.path.exists("dist"): shutil.rmtree("dist", ignore_errors=True)
 if os.path.exists("build"): shutil.rmtree("build", ignore_errors=True)
 
-print("🚀 Building AI Brain Standalone Executable...")
+print("Building AI Brain Standalone Executable...")
 
 PyInstaller.__main__.run([
     'main.py',                       
@@ -26,14 +26,26 @@ PyInstaller.__main__.run([
     '--hidden-import=PIL',           
     '--hidden-import=customtkinter', 
     '--hidden-import=sklearn.utils._cython_blas',
-    '--hidden-import=sklearn.neighbors.typedefs',
-    '--hidden-import=sklearn.neighbors.quad_tree',
     '--hidden-import=sklearn.tree',
     '--hidden-import=sklearn.tree._utils',
+    '--exclude-module=torch',
+    '--exclude-module=torchvision',
+    '--exclude-module=tensorflow',
+    '--exclude-module=matplotlib',
+    '--exclude-module=pandas',
+    '--exclude-module=pyarrow',
+    '--exclude-module=numba',
+    '--exclude-module=llvmlite',
+    '--exclude-module=cv2',
+    '--exclude-module=moviepy',
+    '--exclude-module=skimage',
+    '--exclude-module=onnxruntime',
+    '--exclude-module=transformers',
+    '--exclude-module=sympy',
     '--clean',
 ])
 
-print("📦 Copying default data files to dist folder...")
+print("Copying default data files to dist folder...")
 # We copy these so the user has editable files next to the exe
 if not os.path.exists("dist"): os.makedirs("dist")
 try:
@@ -41,4 +53,4 @@ try:
     shutil.copy("config.json", "dist/config.json")
 except: pass
 
-print("\n✅ Build Complete! Please check 'dist/AIBrain_Genius.exe'")
+print("\nBuild Complete! Please check 'dist/AIBrain_Genius.exe'")

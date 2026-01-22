@@ -26,6 +26,24 @@ class AIBrain:
         if not valid_options:
             return random.choice(options) if options else ""
 
+        if self._positive_lock_enabled():
+            locked_options = self._apply_positive_lock(valid_options)
+            if locked_options:
+                valid_options = locked_options
+
+        # 1.5 Direct demographic matches (Age / Gender)
+        is_age_q = self._is_age_question(question_text) or self._options_look_like_age(valid_options)
+        if is_age_q:
+            age_choice = self._match_age_option(valid_options, persona.get("age"))
+            if age_choice:
+                return age_choice
+
+        is_gender_q = self._is_gender_question(question_text) or self._options_look_like_gender(valid_options)
+        if is_gender_q:
+            gender_choice = self._match_gender_option(valid_options, persona.get("gender"))
+            if gender_choice:
+                return gender_choice
+
         # 2. Detect Context (Questions about Work? Life? Money?)
         context = self._detect_context(question_text)
         topic = self._detect_attitude_topic(question_text)
@@ -64,6 +82,13 @@ class AIBrain:
                     score += max(0, 3 - abs(opt_sentiment - stance))
                     reason += f", Stance Align {stance}"
 
+            # Positive lock bias toward 4-5 when enabled
+            if self._positive_lock_enabled():
+                rating_val = self._extract_rating_value(opt)
+                if rating_val is not None and rating_val >= 4:
+                    score += 1.5
+                    reason += ", Positive Bias 4-5"
+
             scored_options.append({"text": opt, "score": score, "reason": reason})
 
         # 4. Select Best Option (Weighted Probabilistic)
@@ -98,6 +123,39 @@ class AIBrain:
 
     def _normalize_text(self, text):
         return " ".join(text.lower().split())
+
+    def _positive_lock_enabled(self):
+        return bool(DATA_MANAGER.config.get("positive_lock"))
+
+    def _extract_binary_value(self, text):
+        t = self._normalize_text(text)
+        yes_terms = {"yes", "ใช่", "true"}
+        no_terms = {"no", "ไม่ใช่", "false"}
+        if t in yes_terms:
+            return 4
+        if t in no_terms:
+            return 2
+        return None
+
+    def _extract_rating_value(self, text):
+        val = self._extract_scale_value(text)
+        if val is not None:
+            return val
+        t = text.lower()
+        for k, v in AGREEMENT_KEYWORDS.items():
+            if k in t:
+                return v
+        for k, v in FREQUENCY_KEYWORDS.items():
+            if k in t:
+                return v
+        return self._extract_binary_value(text)
+
+    def _apply_positive_lock(self, options):
+        scored = [(opt, self._extract_rating_value(opt)) for opt in options]
+        if not any(val is not None for _, val in scored):
+            return None
+        filtered = [opt for opt, val in scored if val is None or val >= 3]
+        return filtered if filtered else None
 
     def _is_forbidden(self, text, forbidden_phrases):
         text_norm = self._normalize_text(text)
@@ -142,9 +200,40 @@ class AIBrain:
                 return True
             if re.search(r"\d{1,3}\s*[-–]\s*\d{1,3}", t):
                 return True
-            if re.search(r"\d{1,3}\s*\+?", t):
+            if re.search(r"\d{1,3}\s*\+", t):
+                return True
+            nums = self._extract_ages_from_text(t)
+            if nums and max(nums) >= 10:
                 return True
         return False
+
+    def _is_gender_question(self, question_text):
+        q = question_text.lower()
+        return any(k in q for k in ["gender", "sex", "เพศ"])
+
+    def _options_look_like_gender(self, options):
+        for opt in options:
+            if self._extract_gender_from_text(opt):
+                return True
+        return False
+
+    def _extract_gender_from_text(self, text):
+        t = text.lower()
+        female_terms = [
+            r"\bfemale\b", r"\bwoman\b", r"\bgirl\b",
+            "เพศหญิง", "ผู้หญิง", "หญิง"
+        ]
+        male_terms = [
+            r"\bmale\b", r"\bman\b", r"\bboy\b",
+            "เพศชาย", "ผู้ชาย", "ชาย"
+        ]
+        for term in female_terms:
+            if re.search(term, t):
+                return "female"
+        for term in male_terms:
+            if re.search(term, t):
+                return "male"
+        return None
 
     def _extract_ages_from_text(self, text):
         # Handles "20", "20 ปี", and ranges like "20-25"
@@ -177,6 +266,42 @@ class AIBrain:
             return n, 200
 
         return n, n
+
+    def _match_age_option(self, options, age):
+        try:
+            age_val = int(age)
+        except Exception:
+            return None
+        matches = []
+        for opt in options:
+            rng = self._text_to_range(opt)
+            if not rng:
+                continue
+            min_age, max_age = rng
+            if min_age <= age_val <= max_age:
+                matches.append(opt)
+        if not matches:
+            return None
+        return random.choice(matches)
+
+    def _match_gender_option(self, options, gender):
+        if not gender:
+            return None
+        g = str(gender).lower()
+        if g.startswith("m"):
+            target = "male"
+        elif g.startswith("f"):
+            target = "female"
+        else:
+            target = g
+        matches = []
+        for opt in options:
+            opt_gender = self._extract_gender_from_text(opt)
+            if opt_gender and opt_gender == target:
+                matches.append(opt)
+        if not matches:
+            return None
+        return random.choice(matches)
 
     def _rule_to_range(self, rule):
         r_type = rule.get("type")
@@ -233,7 +358,8 @@ class AIBrain:
         # Exclude "Other" or text-input fields, plus forbidden phrases
         forbidden = self._get_forbidden_phrases()
         age_rules = self._get_forbidden_age_rules()
-        is_age_q = self._is_age_question(question_text) or self._options_look_like_age(options)
+        is_scale = self._is_scale_question(options)
+        is_age_q = (self._is_age_question(question_text) or self._options_look_like_age(options)) and not is_scale
         return [
             opt for opt in options
             if not any(x in opt.lower() for x in ["other", "อื่น", "ระบุ"])

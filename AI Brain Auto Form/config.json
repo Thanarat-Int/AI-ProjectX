@@ -1,16 +1,11 @@
 {
-    "url": "https://docs.google.com/forms/d/e/1FAIpQLSep7XqRakLOgRG9sBUc3nHhW8apfFOCHtGGvDD5eeScYEG8eQ/viewform?fbzx=8533751471908331334",
-    "loops": "10",
+    "url": "https://docs.google.com/forms/d/e/1FAIpQLSep7XqRakLOgRG9sBUc3nHhW8apfFOCHtGGvDD5eeScYEG8eQ/viewform",
+    "loops": "300",
     "target_groups": [
         "IT"
     ],
     "target_positions": [
-        "Engineer",
-        "IT Support",
-        "Programmer",
-        "QA",
-        "SA",
-        "Tester"
+        "All"
     ],
     "forbidden_answers": [
         "\u0e44\u0e21\u0e48\u0e44\u0e14\u0e49\u0e17\u0e33\u0e07\u0e32\u0e19\u0e43\u0e19\u0e02\u0e13\u0e30\u0e19\u0e35\u0e49",
@@ -20,8 +15,13 @@
     "forbidden_ages": [],
     "forbidden_age_rules": [
         {
+            "type": "lt",
+            "value": 18
+        },
+        {
             "type": "gte",
             "value": 55
         }
-    ]
+    ],
+    "positive_lock": true
 }

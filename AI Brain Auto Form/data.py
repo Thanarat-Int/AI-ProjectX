@@ -181,10 +181,11 @@ class DataManager:
             "forbidden_answers": [],
             "forbidden_match_mode": "exact",
             "forbidden_ages": [],
-            "forbidden_age_rules": []
+            "forbidden_age_rules": [],
+            "positive_lock": False
         }
 
-    def save_config(self, url, loops, target_groups=None, target_positions=None, forbidden_answers=None, forbidden_match_mode=None, forbidden_ages=None, forbidden_age_rules=None):
+    def save_config(self, url, loops, target_groups=None, target_positions=None, forbidden_answers=None, forbidden_match_mode=None, forbidden_ages=None, forbidden_age_rules=None, positive_lock=None):
         self.config = {"url": url, "loops": loops}
         if target_groups:
             self.config["target_groups"] = target_groups
@@ -198,6 +199,8 @@ class DataManager:
             self.config["forbidden_ages"] = forbidden_ages
         if forbidden_age_rules is not None:
             self.config["forbidden_age_rules"] = forbidden_age_rules
+        if positive_lock is not None:
+            self.config["positive_lock"] = positive_lock
         user_path = self.get_user_file(CONFIG_FILE_NAME)
         try:
             with open(user_path, "w", encoding="utf-8") as f:

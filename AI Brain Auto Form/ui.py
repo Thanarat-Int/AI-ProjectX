@@ -43,7 +43,18 @@ class PersonaCard(ctk.CTkFrame):
         self.lbl_name.configure(text=persona['name'].upper())
         group = DATA_MANAGER.get_group_for_role(persona['role'])
         level = persona.get("level", "General")
-        self.lbl_role.configure(text=f"{persona['role']} | {group} | {level} | Age {persona['age']}")
+        gender = persona.get("gender", "")
+        gender_label = ""
+        if gender:
+            g = str(gender).lower()
+            if g.startswith("m"):
+                gender_label = "ชาย"
+            elif g.startswith("f"):
+                gender_label = "หญิง"
+            else:
+                gender_label = str(gender)
+        gender_text = f" | {gender_label}" if gender_label else ""
+        self.lbl_role.configure(text=f"{persona['role']} | {group} | {level} | Age {persona['age']}{gender_text}")
         
         traits = f"{persona.get('personality', '')}"
         if len(traits) > 25: traits = traits[:25] + "..."
@@ -411,6 +422,18 @@ class App(ctk.CTk):
         self.chk_headless = ctk.CTkCheckBox(self.adv_frame, text="Ghost Mode (Hide Browser)", font=("Arial", 11), fg_color="#106EBE")
         self.chk_headless.pack(pady=5, padx=15, anchor="w")
 
+        self.var_positive_lock = ctk.StringVar(value="1" if self.config.get("positive_lock") else "0")
+        self.chk_positive_lock = ctk.CTkCheckBox(
+            self.adv_frame,
+            text="Positive-Only Answers (3-5)",
+            font=("Arial", 11),
+            fg_color="#106EBE",
+            variable=self.var_positive_lock,
+            onvalue="1",
+            offvalue="0"
+        )
+        self.chk_positive_lock.pack(pady=5, padx=15, anchor="w")
+
         self.lbl_threads = ctk.CTkLabel(self.adv_frame, text="Parallel Agents:", font=("Arial", 11))
         self.lbl_threads.pack(pady=(10,0), padx=15, anchor="w")
         self.slider_threads = ctk.CTkSlider(self.adv_frame, from_=1, to=12, number_of_steps=11, width=180)
@@ -529,6 +552,7 @@ class App(ctk.CTk):
 
         forbidden_answers = self.get_forbidden_answers()
         forbidden_age_rules = self.get_forbidden_age_rules()
+        positive_lock = self.var_positive_lock.get() == "1"
         DATA_MANAGER.save_config(
             url,
             str(total_loops),
@@ -537,7 +561,8 @@ class App(ctk.CTk):
             forbidden_answers,
             "exact",
             [],
-            forbidden_age_rules
+            forbidden_age_rules,
+            positive_lock
         )
         
         # Advanced Configs
